@@ -64,15 +64,15 @@ if (!function_exists('sitesauce_deployments_fire_webhook_save_post')) {
     add_action('save_post', 'sitesauce_deployments_fire_webhook_save_post');
 }
 
-if (!function_exists('sitesauce_deployments_fire_webhook_created_term')) {
+if (!function_exists('sitesauce_deployments_fire_webhook_trashed_post')) {
     /**
      * Fire a request to the webhook when a post is deleted.
      *
      * @return void
      */
-    function sitesauce_deployments_fire_webhook_thrashed_post()
+    function sitesauce_deployments_fire_webhook_trashed_post()
     {
         \Sitesauce\Wordpress\WebhookTrigger::triggerTrashedPost();
     }
-    add_action('thrased_post', 'sitesauce_deployments_fire_webhook_thrashed_post');
+    add_action('trashed_post', 'sitesauce_deployments_fire_webhook_trashed_post');
 }
