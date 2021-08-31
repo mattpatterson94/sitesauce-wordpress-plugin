@@ -5,6 +5,12 @@ namespace Sitesauce\Wordpress;
 class WebhookTrigger
 {
     /**
+     * Use this to track whether we have already triggered the webhook
+     * This stops the webhook being triggered twice
+    */ 
+    global $triggered = false;
+
+    /**
      * When a post is saved or updated, fire this
      *
      * @param int $id
@@ -39,6 +45,12 @@ class WebhookTrigger
         if (filter_var($hook = sitesauce_deployments_get_build_hook(), FILTER_VALIDATE_URL) === false) {
             return;
         }
+
+        if(self::triggered) {
+            return;
+        }
+
+        self::triggered = true;
 
         return file_get_contents($hook);
     }
