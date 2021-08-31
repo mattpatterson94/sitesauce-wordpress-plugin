@@ -26,6 +26,16 @@ class WebhookTrigger
     }
 
     /**
+     * When an options page is updated, fire this
+     *
+     * @return void
+     */
+    public static function triggerOptionAddedUpdated()
+    {
+        self::fireWebhook();
+    }
+
+    /**
      * Fire a request to the webhook when a term has been created.
      *
      * @return void

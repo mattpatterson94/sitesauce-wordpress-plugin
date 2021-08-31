@@ -76,3 +76,17 @@ if (!function_exists('sitesauce_deployments_fire_webhook_trashed_post')) {
     }
     add_action('trashed_post', 'sitesauce_deployments_fire_webhook_trashed_post');
 }
+
+if (!function_exists('sitesauce_deployments_fire_webhook_option_added_updated')) {
+    /**
+     * Fire a request to the webhook when an option is updated.
+     *
+     * @return void
+     */
+    function sitesauce_deployments_fire_webhook_option_added_updated()
+    {
+        \Sitesauce\Wordpress\WebhookTrigger::triggerOptionAddedUpdated();
+    }
+    add_action('updated_option', 'sitesauce_deployments_fire_webhook_option_added_updated');
+    add_action('added_option', 'sitesauce_deployments_fire_webhook_option_added_updated');
+}
