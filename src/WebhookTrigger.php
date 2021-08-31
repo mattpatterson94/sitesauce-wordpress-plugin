@@ -36,6 +36,17 @@ class WebhookTrigger
     }
 
     /**
+     * Fires on the ACF Save Post hook
+     * Useful for when ACF is used, and used on Options pages
+     *
+     * @return void
+     */
+    public static function triggerOptionAcfSavePost($post_id)
+    {
+        self::fireWebhook();
+    }
+
+    /**
      * Fire a request to the webhook when a term has been created.
      *
      * @return void

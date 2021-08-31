@@ -90,3 +90,17 @@ if (!function_exists('sitesauce_deployments_fire_webhook_option_added_updated'))
     add_action('updated_option', 'sitesauce_deployments_fire_webhook_option_added_updated');
     add_action('added_option', 'sitesauce_deployments_fire_webhook_option_added_updated');
 }
+
+if (!function_exists('sitesauce_deployments_fire_webhook_acf_save_post')) {
+    /**
+     * Fire a request to the webhook when an acf page/post is updated.
+     * This is useful for capturing changes to acf options pages, etc.
+     * 
+     * @return void
+     */
+    function sitesauce_deployments_fire_webhook_acf_save_post()
+    {
+        \Sitesauce\Wordpress\WebhookTrigger::triggerOptionAcfSavePost($post_id);
+    }
+    add_action('acf/save_post', 'sitesauce_deployments_fire_webhook_acf_save_post');
+}
