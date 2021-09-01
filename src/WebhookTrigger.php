@@ -8,7 +8,7 @@ class WebhookTrigger
      * Use this to track whether we have already triggered the webhook
      * This stops the webhook being triggered twice
     */ 
-    global $triggered = false;
+    static $triggered = false;
 
     /**
      * When a post is saved or updated, fire this
@@ -26,13 +26,31 @@ class WebhookTrigger
     }
 
     /**
+     * When an options page is added, fire this
+     *
+     * @return void
+     */
+    public static function triggerOptionAdded($option, $value)
+    {
+        $options = apply_filters( 'sitesauce_filter_trigger_options', array() );
+
+        if(in_array($option, $options)) {
+            self::fireWebhook();
+        }
+    }
+
+    /**
      * When an options page is updated, fire this
      *
      * @return void
      */
-    public static function triggerOptionAddedUpdated()
+    public static function triggerOptionUpdated($option, $old_value, $value)
     {
-        self::fireWebhook();
+        $options = apply_filters( 'sitesauce_filter_trigger_options', array() );
+
+        if(in_array($option, $options)) {
+            self::fireWebhook();
+        }
     }
 
     /**
@@ -67,11 +85,11 @@ class WebhookTrigger
             return;
         }
 
-        if(self::triggered) {
+        if(self::$triggered) {
             return;
         }
 
-        self::triggered = true;
+        self::$triggered = true;
 
         return file_get_contents($hook);
     }
