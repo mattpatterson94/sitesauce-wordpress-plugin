@@ -51,6 +51,7 @@ add_filter( 'sitesauce_deployments_get_trigger_on_options_value', 'add_custom_op
 - Trigger on acf/save-post for custom options pages / pages / posts
 - Only trigger once per save
 - Using filters, Sitesauce can be triggered based on custom wp options
+- Add new toggleable fields in the settings menu for new types of triggers
 
 = 1.1 =
 - Fix crash when saving or creating pages
