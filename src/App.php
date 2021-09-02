@@ -49,6 +49,7 @@ final class App
     protected function constants()
     {
         define('SITESAUCE_DEPLOYMENTS_OPTIONS_KEY', 'wp_sitesauce_deployments');
+        define('SITESAUCE_DEPLOYMENTS_TRIGGER_OPTIONS_FILTER', 'sitesauce_filter_trigger_options');
     }
 
 	/**

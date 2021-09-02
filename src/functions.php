@@ -26,6 +26,32 @@ if (!function_exists('sitesauce_deployments_get_build_hook')) {
     }
 }
 
+if (!function_exists('sitesauce_deployments_get_trigger_on_options_value')) {
+    /**
+     * Return the trigger on options value
+     *
+     * @return true|false|null
+     */
+    function sitesauce_deployments_get_trigger_on_options_value()
+    {
+        $options = sitesauce_deployments_get_options();
+        return isset($options['trigger_on_options']) ? $options['trigger_on_options'] : null;
+    }
+}
+
+if (!function_exists('sitesauce_deployments_get_trigger_on_acf_save_post_value')) {
+    /**
+     * Return the trigger on options value
+     *
+     * @return true|false|null
+     */
+    function sitesauce_deployments_get_trigger_on_acf_save_post_value()
+    {
+        $options = sitesauce_deployments_get_options();
+        return isset($options['trigger_on_acf_save_post']) ? $options['trigger_on_acf_save_post'] : null;
+    }
+}
+
 if (!function_exists('sitesauce_deployments_fire_webhook')) {
     /**
      * Fire a request to the webhook.
@@ -64,15 +90,55 @@ if (!function_exists('sitesauce_deployments_fire_webhook_save_post')) {
     add_action('save_post', 'sitesauce_deployments_fire_webhook_save_post');
 }
 
-if (!function_exists('sitesauce_deployments_fire_webhook_created_term')) {
+if (!function_exists('sitesauce_deployments_fire_webhook_trashed_post')) {
     /**
      * Fire a request to the webhook when a post is deleted.
      *
      * @return void
      */
-    function sitesauce_deployments_fire_webhook_thrashed_post()
+    function sitesauce_deployments_fire_webhook_trashed_post()
     {
         \Sitesauce\Wordpress\WebhookTrigger::triggerTrashedPost();
     }
-    add_action('thrased_post', 'sitesauce_deployments_fire_webhook_thrashed_post');
+    add_action('trashed_post', 'sitesauce_deployments_fire_webhook_trashed_post');
+}
+
+if (!function_exists('sitesauce_deployments_fire_webhook_option_updated')) {
+    /**
+     * Fire a request to the webhook when an option is updated.
+     *
+     * @return void
+     */
+    function sitesauce_deployments_fire_webhook_option_updated($option, $old_value, $value)
+    {
+        \Sitesauce\Wordpress\WebhookTrigger::triggerOptionUpdated($option, $old_value, $value);
+    }
+    add_action('updated_option', 'sitesauce_deployments_fire_webhook_option_updated', 10, 3);
+}
+
+if (!function_exists('sitesauce_deployments_fire_webhook_option_added')) {
+    /**
+     * Fire a request to the webhook when an option is added.
+     *
+     * @return void
+     */
+    function sitesauce_deployments_fire_webhook_option_added($option, $value)
+    {
+        \Sitesauce\Wordpress\WebhookTrigger::triggerOptionAdded($option, $value);
+    }
+    add_action('added_option', 'sitesauce_deployments_fire_webhook_option_added', 10, 2);
+}
+
+if (!function_exists('sitesauce_deployments_fire_webhook_acf_save_post')) {
+    /**
+     * Fire a request to the webhook when an acf page/post is updated.
+     * This is useful for capturing changes to acf options pages, etc.
+     * 
+     * @return void
+     */
+    function sitesauce_deployments_fire_webhook_acf_save_post($post_id)
+    {
+        \Sitesauce\Wordpress\WebhookTrigger::triggerOptionAcfSavePost($post_id);
+    }
+    add_action('acf/save_post', 'sitesauce_deployments_fire_webhook_acf_save_post');
 }

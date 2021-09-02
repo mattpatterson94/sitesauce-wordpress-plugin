@@ -17,4 +17,18 @@ class Field
             <?= !empty($args['description']) ? "<p class=\"description\">{$args['description']}</p>" : ''; ?>
         </div><?php
     }
+
+    /**
+     * Render an input[type=checkbox] field
+     *
+     * @param array $args
+     * @return void
+     */
+    public static function checkbox($args = [])
+    {
+        ?><div>
+            <input type="checkbox" class="regular-text" <?= esc_attr($args['checked']) == "1" ? "checked" : "" ?> name="<?= esc_attr($args['name']); ?>" value="<?= $args['value']; ?>">
+            <?= !empty($args['description']) ? "<p class=\"description\">{$args['description']}</p>" : ''; ?>
+        </div><?php
+    }
 }

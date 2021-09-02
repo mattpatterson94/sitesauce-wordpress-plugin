@@ -5,6 +5,12 @@ namespace Sitesauce\Wordpress;
 class WebhookTrigger
 {
     /**
+     * Use this to track whether we have already triggered the webhook
+     * This stops the webhook being triggered twice
+    */ 
+    static $triggered = false;
+
+    /**
      * When a post is saved or updated, fire this
      *
      * @param int $id
@@ -14,6 +20,57 @@ class WebhookTrigger
     {
         if (get_post_status($post_id) !== 'publish') {
             return;
+        }
+
+        self::fireWebhook();
+    }
+
+    /**
+     * When an options page is added, fire this
+     *
+     * @return void
+     */
+    public static function triggerOptionAdded($option, $value)
+    {
+        if(sitesauce_deployments_get_trigger_on_options_value() != "1") {
+           return; 
+        }
+
+        $options = apply_filters( SITESAUCE_DEPLOYMENTS_TRIGGER_OPTIONS_FILTER, array() );
+
+        if(in_array($option, $options)) {
+            self::fireWebhook();
+        }
+    }
+
+    /**
+     * When an options page is updated, fire this
+     *
+     * @return void
+     */
+    public static function triggerOptionUpdated($option, $old_value, $value)
+    {
+        if(sitesauce_deployments_get_trigger_on_options_value() != "1") {
+           return; 
+        }
+
+        $options = apply_filters( SITESAUCE_DEPLOYMENTS_TRIGGER_OPTIONS_FILTER, array() );
+
+        if(in_array($option, $options)) {
+            self::fireWebhook();
+        }
+    }
+
+    /**
+     * Fires on the ACF Save Post hook
+     * Useful for when ACF is used, and used on Options pages
+     *
+     * @return void
+     */
+    public static function triggerOptionAcfSavePost($post_id)
+    {
+        if(sitesauce_deployments_get_trigger_on_acf_save_post_value() != "1") {
+           return; 
         }
 
         self::fireWebhook();
@@ -39,6 +96,12 @@ class WebhookTrigger
         if (filter_var($hook = sitesauce_deployments_get_build_hook(), FILTER_VALIDATE_URL) === false) {
             return;
         }
+
+        if(self::$triggered) {
+            return;
+        }
+
+        self::$triggered = true;
 
         return file_get_contents($hook);
     }
