@@ -32,7 +32,11 @@ class WebhookTrigger
      */
     public static function triggerOptionAdded($option, $value)
     {
-        $options = apply_filters( 'sitesauce_filter_trigger_options', array() );
+        if(sitesauce_deployments_get_trigger_on_options_value() != "1") {
+           return; 
+        }
+
+        $options = apply_filters( SITESAUCE_DEPLOYMENTS_TRIGGER_OPTIONS_FILTER, array() );
 
         if(in_array($option, $options)) {
             self::fireWebhook();
@@ -46,7 +50,11 @@ class WebhookTrigger
      */
     public static function triggerOptionUpdated($option, $old_value, $value)
     {
-        $options = apply_filters( 'sitesauce_filter_trigger_options', array() );
+        if(sitesauce_deployments_get_trigger_on_options_value() != "1") {
+           return; 
+        }
+
+        $options = apply_filters( SITESAUCE_DEPLOYMENTS_TRIGGER_OPTIONS_FILTER, array() );
 
         if(in_array($option, $options)) {
             self::fireWebhook();
@@ -61,6 +69,10 @@ class WebhookTrigger
      */
     public static function triggerOptionAcfSavePost($post_id)
     {
+        if(sitesauce_deployments_get_trigger_on_acf_save_post_value() != "1") {
+           return; 
+        }
+
         self::fireWebhook();
     }
 

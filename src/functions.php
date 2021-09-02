@@ -26,6 +26,32 @@ if (!function_exists('sitesauce_deployments_get_build_hook')) {
     }
 }
 
+if (!function_exists('sitesauce_deployments_get_trigger_on_options_value')) {
+    /**
+     * Return the trigger on options value
+     *
+     * @return true|false|null
+     */
+    function sitesauce_deployments_get_trigger_on_options_value()
+    {
+        $options = sitesauce_deployments_get_options();
+        return isset($options['trigger_on_options']) ? $options['trigger_on_options'] : null;
+    }
+}
+
+if (!function_exists('sitesauce_deployments_get_trigger_on_acf_save_post_value')) {
+    /**
+     * Return the trigger on options value
+     *
+     * @return true|false|null
+     */
+    function sitesauce_deployments_get_trigger_on_acf_save_post_value()
+    {
+        $options = sitesauce_deployments_get_options();
+        return isset($options['trigger_on_acf_save_post']) ? $options['trigger_on_acf_save_post'] : null;
+    }
+}
+
 if (!function_exists('sitesauce_deployments_fire_webhook')) {
     /**
      * Fire a request to the webhook.

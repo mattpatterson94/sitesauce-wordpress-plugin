@@ -34,6 +34,20 @@ class Settings
             'placeholder' => 'https://app.sitesauce.app/api/build_hooks/...',
             'description' => 'A build hook for the site you want to keep updated. You can get this value on the settings page of your site.'
         ]);
+
+        add_settings_field('trigger_on_options', 'Trigger on Option Updates', ['Sitesauce\Wordpress\Field', 'checkbox'], $key, 'general', [
+            'name' => "{$key}[trigger_on_options]",
+            'value' => "1",
+            'checked' => sitesauce_deployments_get_trigger_on_options_value() == "1",
+            'description' => 'If you want to trigger Sitesauce on option updates. <a href="https://github.com/mattpatterson94/sitesauce-wordpress-plugin/" target="_blank">Learn more here</a>'
+        ]);
+
+        add_settings_field('trigger_on_acf_save_post', 'Trigger on Advanced Custom Fields Save Hook', ['Sitesauce\Wordpress\Field', 'checkbox'], $key, 'general', [
+            'name' => "{$key}[trigger_on_acf_save_post]",
+            'value' => "1",
+            'checked' => sitesauce_deployments_get_trigger_on_acf_save_post_value() == "1",
+            'description' => 'If you want to trigger Sitesauce on Advanced Custom Fields Hook. <a href="https://www.advancedcustomfields.com/resources/acf-save_post/" target="_blank">Learn more here</a>'
+        ]);
     }
 
     /**
