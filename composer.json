@@ -2,6 +2,7 @@
   "name": "mattpatterson94/sitesauce-wordpress-plugin",
   "description": "A fork of the sitesauce wordpress plugin for triggering sitesauce",
   "homepage": "https://github.com/mattpatterson94/sitesauce-wordpress-plugin",
+  "license": "GPL-2.0+",
   "keywords": [
     "wordpress"
   ],
